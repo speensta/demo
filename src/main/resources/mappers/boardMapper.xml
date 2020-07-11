@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boardMapper">
+
+	<insert id = 'Insert_board'>
+		INSERT INTO board (b_no, b_owner, b_title, b_content, b_regdate)
+		VALUES ((select nvl(max(b_no),1)+1 from board), #{b_owner}, #{b_title}, #{b_content}, sysdate)
+	</insert>
+	
+	<select id = "get_board" resultType="Board">
+		select b.*, (select m.m_id from member m where b.b_owner = m.m_no) b_owner_nick from board b order by b_no desc
+	</select>
+	
+</mapper>

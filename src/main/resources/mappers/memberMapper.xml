@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="memberMapper">
+
+	<select id = "Id_Check" resultType="int">
+		select count(*) from member m
+		where m.m_id = #{m_id}
+	</select>
+	
+	<insert id = 'Register'>
+		INSERT INTO member (m_no, m_id, m_pw)
+		VALUES ((select nvl(max(m_no),1)+1 from member), #{m_id}, #{m_pw})
+	</insert>
+	
+	<select id = "Login" resultType="int">
+		select count(*) from member m
+		where m.m_id = #{m_id} and m.m_pw = #{m_pw}
+	</select>
+	
+	<select id = "Login_Info" resultType="Member">
+		select * from member m
+		where m.m_id = #{m_id} and m.m_pw = #{m_pw}
+	</select>
+</mapper>
